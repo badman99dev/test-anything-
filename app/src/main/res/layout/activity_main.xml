@@ -81,11 +81,11 @@
     <FrameLayout
         android:id="@+id/widgetContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_gravity="bottom"
         android:layout_margin="16dp"
         android:background="#1A1A2E"
         android:padding="8dp"
-        android:visibility="gone" />
+        android:visibility="invisible" />
 
 </FrameLayout>

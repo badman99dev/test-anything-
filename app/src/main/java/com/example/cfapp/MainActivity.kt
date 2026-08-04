@@ -2,6 +2,7 @@ package com.example.cfapp
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +15,8 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.math.max
+import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity() {
 
@@ -56,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         binding.resultText.text = ""
         binding.console.text = ""
         lastCookieHeader = null
-        binding.widgetContainer.visibility = View.GONE
+        binding.widgetContainer.visibility = View.INVISIBLE
 
         log("═══ SOLVE: $url ═══")
 
@@ -71,10 +74,14 @@ class MainActivity : AppCompatActivity() {
         solver = s
 
         s.onWidgetSize = { wPx, hPx ->
+            val density = resources.displayMetrics.density
             runOnUiThread {
-                binding.widgetContainer.visibility = View.VISIBLE
-                binding.widgetContainer.layoutParams.width = wPx
-                binding.widgetContainer.layoutParams.height = hPx
+                if (hPx > 0) {
+                    binding.widgetContainer.visibility = View.VISIBLE
+                    binding.widgetContainer.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+                    val h = maxOf(hPx, (48 * density).roundToInt())
+                    binding.widgetContainer.layoutParams.height = h
+                }
             }
         }
         s.onEvent = { ev ->
