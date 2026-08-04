@@ -21,6 +21,39 @@
             android:inputType="textUri"
             android:singleLine="true" />
 
+        <RadioGroup
+            android:id="@+id/modeGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/modeSilent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="Silent"
+                android:textColor="#C9D1D9" />
+
+            <RadioButton
+                android:id="@+id/modePopup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Popup"
+                android:textColor="#C9D1D9" />
+
+            <RadioButton
+                android:id="@+id/modeManual"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Manual"
+                android:textColor="#C9D1D9" />
+        </RadioGroup>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
