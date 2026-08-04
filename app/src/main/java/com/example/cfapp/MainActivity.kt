@@ -1,6 +1,7 @@
 package com.example.cfapp
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -55,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         binding.resultText.text = ""
         binding.console.text = ""
         lastCookieHeader = null
+        binding.widgetContainer.visibility = View.GONE
 
         log("═══ SOLVE: $url ═══")
 
@@ -63,10 +65,18 @@ class MainActivity : AppCompatActivity() {
             SolverConfig(
                 timeoutMs = 30_000,
                 backgroundSolveMs = 20_000,
+                attachContainer = binding.widgetContainer,  // widget-box auto-click mode
             ),
         )
         solver = s
 
+        s.onWidgetSize = { wPx, hPx ->
+            runOnUiThread {
+                binding.widgetContainer.visibility = View.VISIBLE
+                binding.widgetContainer.layoutParams.width = wPx
+                binding.widgetContainer.layoutParams.height = hPx
+            }
+        }
         s.onEvent = { ev ->
             runOnUiThread { log("[${fmt(ev.at)}] ${levelIcon(ev.level)} ${ev.message}") }
         }
@@ -92,7 +102,25 @@ class MainActivity : AppCompatActivity() {
                 }
                 is SolverResult.InteractionNeeded -> {
                     binding.resultText.text = "⚠️ Interaction needed (${result.challengeType})"
-                    log("Background window expired — challenge needs interaction")
+                    log("Background window expired — attaching widget box for auto-click")
+                    if (result.solver.attach(binding.widgetContainer)) {
+                        log("Widget attached → auto-clicking…")
+                        val ar = result.solver.awaitResult()
+                        log("═══ INTERACTIVE RESULT: ${ar::class.simpleName} ═══")
+                        when (ar) {
+                            is SolverResult.Solved -> {
+                                lastCookieHeader = ar.cookieHeader
+                                binding.resultText.text =
+                                    "✅ Solved (interactive) — ${ar.elapsedMs}ms taps=${s.tapCount}"
+                                log("✅ Solved after interaction! cf_clearance acquired")
+                            }
+                            is SolverResult.Failed -> {
+                                binding.resultText.text = "❌ Interactive failed: ${ar.reason}"
+                                log("Interactive failed: ${ar.reason}")
+                            }
+                            else -> log("Interactive done: ${ar::class.simpleName}")
+                        }
+                    }
                 }
                 is SolverResult.Failed -> {
                     binding.resultText.text = "❌ Failed: ${result.reason}"

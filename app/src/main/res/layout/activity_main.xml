@@ -1,74 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#0D1117">
-
-    <EditText
-        android:id="@+id/urlInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Target URL (Cloudflare protected)"
-        android:text="https://2captcha.com/demo/cloudflare-turnstile-challenge"
-        android:textColor="#C9D1D9"
-        android:textColorHint="#8B949E"
-        android:inputType="textUri"
-        android:singleLine="true" />
+    android:background="#0D1117"
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="12dp">
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/solveBtn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Solve" />
-
-        <Button
-            android:id="@+id/copyBtn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            android:text="Copy cookie header" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/resultText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:textColor="#3FB950"
-        android:textSize="14sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="Console"
-        android:textColor="#8B949E"
-        android:textSize="12sp" />
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="4dp">
-
-        <TextView
-            android:id="@+id/console"
+        <EditText
+            android:id="@+id/urlInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Target URL (Cloudflare protected)"
+            android:text="https://2captcha.com/demo/cloudflare-turnstile-challenge"
             android:textColor="#C9D1D9"
-            android:textSize="11sp"
-            android:fontFamily="monospace" />
-    </ScrollView>
+            android:textColorHint="#8B949E"
+            android:inputType="textUri"
+            android:singleLine="true" />
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/solveBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Solve" />
+
+            <Button
+                android:id="@+id/copyBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="Copy cookie header" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/resultText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textColor="#3FB950"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Console"
+            android:textColor="#8B949E"
+            android:textSize="12sp" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:id="@+id/console"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#C9D1D9"
+                android:textSize="11sp"
+                android:fontFamily="monospace" />
+        </ScrollView>
+
+    </LinearLayout>
+
+    <!-- Widget box overlay container: CloudFlareSolver crops the Turnstile widget here -->
+    <FrameLayout
+        android:id="@+id/widgetContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="16dp"
+        android:background="#1A1A2E"
+        android:padding="8dp"
+        android:visibility="gone" />
+
+</FrameLayout>
